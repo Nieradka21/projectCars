@@ -1,5 +1,6 @@
 package com.project.cars.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.project.cars.dto.carsDTO;
 import com.project.cars.model.cars;
@@ -55,12 +57,23 @@ public class CarsController {
 	}
 
 	@PostMapping
-	public cars saveCar(@RequestBody cars car) {
-		return service.save(car);
+	public ResponseEntity<?> saveCar(@RequestBody cars car) {
+
+		try {
+			carsDTO c = service.save(car);
+			URI location = getUri(c.getId());
+			return ResponseEntity.created(location).build();
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	private URI getUri(Long id) {
+		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
 	}
 
 	@PutMapping
-	public cars UpCar(@RequestBody cars car) {
+	public carsDTO UpCar(@RequestBody cars car) {
 		return service.save(car);
 	}
 
