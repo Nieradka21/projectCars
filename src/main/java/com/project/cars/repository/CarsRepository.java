@@ -12,5 +12,5 @@ public interface CarsRepository extends JpaRepository<cars, Long> {
 
 	List<cars> findByType(String type);
 
-	cars deleteById(long id);
+	
 }

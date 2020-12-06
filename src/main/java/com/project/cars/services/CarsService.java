@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.cars.dto.carsDTO;
@@ -38,6 +39,22 @@ public class CarsService {
 
 	}
 
+	public carsDTO UpCar(cars car) {
+		Assert.notNull(car.getId(), "Não foi possível atualizar o registro");
+		return carsDTO.create(rep.save(car));
+
+	}
+
+	public boolean deleteById(Long id) {
+
+		if (getCarsById(id).isPresent()) {
+			rep.deleteById(id);
+			return true;
+		}
+		return false;
+
+	}
+
 	/*
 	 * public List<cars> getCarsFake() { List<cars> car = new ArrayList<>();
 	 * 
@@ -46,9 +63,5 @@ public class CarsService {
 	 * 
 	 * return car; }
 	 */
-
-	public cars deleteById(long id) {
-		return rep.deleteById(id);
-	}
 
 }

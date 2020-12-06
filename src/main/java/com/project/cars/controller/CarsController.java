@@ -73,12 +73,18 @@ public class CarsController {
 	}
 
 	@PutMapping
-	public carsDTO UpCar(@RequestBody cars car) {
-		return service.save(car);
+	public ResponseEntity<?> UpCar(@RequestBody cars car) {
+
+		return car.getId() != null ? ResponseEntity.ok(car) : ResponseEntity.notFound().build();
+
 	}
 
 	@DeleteMapping("/{id}")
-	public cars DelCar(@PathVariable(value = "id") long id) {
-		return service.deleteById(id);
+	public ResponseEntity<?> DelCar(@PathVariable(value = "id") Long id) {
+
+		boolean ok = service.deleteById(id);
+
+		return ok ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+
 	}
 }
