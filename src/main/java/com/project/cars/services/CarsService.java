@@ -9,8 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.cars.dto.carsDTO;
+import com.project.cars.exception.ObjectNotFoundException;
 import com.project.cars.model.cars;
 import com.project.cars.repository.CarsRepository;
+
 import org.springframework.util.Assert;
 
 @Service
@@ -24,9 +26,9 @@ public class CarsService {
 		return rep.findAll().stream().map(carsDTO::create).collect(Collectors.toList());
 	}
 
-	public Optional<carsDTO> getCarsById(Long id) {
-
-		return rep.findById(id).map(carsDTO::create);
+	public carsDTO getCarsById(Long id) {
+		Optional<cars> car = rep.findById(id);
+		return car.map(carsDTO::create).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado"));
 	}
 
 	public List<carsDTO> getCarsByType(String type) {
@@ -45,13 +47,9 @@ public class CarsService {
 
 	}
 
-	public boolean deleteById(Long id) {
+	public void deleteById(Long id) {
 
-		if (getCarsById(id).isPresent()) {
-			rep.deleteById(id);
-			return true;
-		}
-		return false;
+		rep.deleteById(id);
 
 	}
 

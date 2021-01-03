@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,35 +24,27 @@ import com.project.cars.model.cars;
 import com.project.cars.services.CarsService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class CarsController {
 	@Autowired
 	private CarsService service = new CarsService();
 
 	@GetMapping
+	@Secured({"ROLE_ADMIN"})
 	public ResponseEntity<List<carsDTO>> getCars() {
 		return ResponseEntity.ok(service.getCars());
 		// return new ResponseEntity<>(service.getCars(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getId(@PathVariable("id") Long id) {
-		Optional<carsDTO> car = service.getCarsById(id);
+	public ResponseEntity<carsDTO> getId(@PathVariable("id") Long id) {
 
-		return car.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-
-//		return car.isPresent() ? ResponseEntity.ok(car.get()) : ResponseEntity.notFound().build();
-		/*
-		 * if (car.isPresent()) {
-		 * 
-		 * return ResponseEntity.ok(car.get()); } else { return
-		 * ResponseEntity.notFound().build(); }
-		 */
+		return ResponseEntity.ok(service.getCarsById(id));
 
 	}
 
 	@GetMapping("/type/{type}")
-	public ResponseEntity<?> getType(@PathVariable("type") String type) {
+	public ResponseEntity<List<carsDTO>> getType(@PathVariable("type") String type) {
 		List<carsDTO> car = service.getCarsByType(type);
 		return car.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(car);
 
@@ -59,13 +53,9 @@ public class CarsController {
 	@PostMapping
 	public ResponseEntity<?> saveCar(@RequestBody cars car) {
 
-		try {
-			carsDTO c = service.save(car);
-			URI location = getUri(c.getId());
-			return ResponseEntity.created(location).build();
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();
-		}
+		carsDTO c = service.save(car);
+		URI location = getUri(c.getId());
+		return ResponseEntity.created(location).build();
 	}
 
 	private URI getUri(Long id) {
@@ -82,9 +72,9 @@ public class CarsController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> DelCar(@PathVariable(value = "id") Long id) {
 
-		boolean ok = service.deleteById(id);
+		service.deleteById(id);
 
-		return ok ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+		return ResponseEntity.ok().build();
 
 	}
 }
