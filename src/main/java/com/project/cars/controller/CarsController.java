@@ -2,11 +2,10 @@ package com.project.cars.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,7 +36,7 @@ public class CarsController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<carsDTO> getId(@PathVariable("id") Long id) {
+	public ResponseEntity<?> getId(@PathVariable("id") Long id) {
 
 		return ResponseEntity.ok(service.getCarsById(id));
 
