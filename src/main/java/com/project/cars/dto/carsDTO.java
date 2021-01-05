@@ -4,9 +4,6 @@ import org.modelmapper.ModelMapper;
 
 import com.project.cars.model.Cars;
 
-import lombok.Data;
-
-
 public class carsDTO {
 
 	private Long id;
@@ -45,6 +42,5 @@ public class carsDTO {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
+
 }
