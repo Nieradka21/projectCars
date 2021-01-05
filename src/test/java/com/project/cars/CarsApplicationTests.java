@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.project.cars.dto.carsDTO;
-import com.project.cars.model.cars;
+import com.project.cars.model.Cars;
 import com.project.cars.services.CarsService;
 
 @SpringBootTest
@@ -23,7 +23,7 @@ class CarsApplicationTests {
 
 	@Test
 	void contextLoads() {
-		cars car = new cars();
+		Cars car = new Cars();
 		car.setName("Ferrari");
 		car.setType("esportivos");
 		carsDTO c = service.save(car);

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.cars.dto.carsDTO;
 import com.project.cars.exception.ObjectNotFoundException;
-import com.project.cars.model.cars;
+import com.project.cars.model.Cars;
 import com.project.cars.repository.CarsRepository;
 
 import org.springframework.util.Assert;
@@ -27,7 +27,7 @@ public class CarsService {
 	}
 
 	public carsDTO getCarsById(Long id) {
-		Optional<cars> car = rep.findById(id);
+		Optional<Cars> car = rep.findById(id);
 		return car.map(carsDTO::create).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado"));
 	}
 
@@ -35,13 +35,13 @@ public class CarsService {
 		return rep.findByType(type).stream().map(carsDTO::create).collect(Collectors.toList());
 	}
 
-	public carsDTO save(cars car) {
+	public carsDTO save(Cars car) {
 		Assert.isNull(car.getId(), "Não foi possível inserir o registro");
 		return carsDTO.create(rep.save(car));
 
 	}
 
-	public carsDTO UpCar(cars car) {
+	public carsDTO UpCar(Cars car) {
 		Assert.notNull(car.getId(), "Não foi possível atualizar o registro");
 		return carsDTO.create(rep.save(car));
 

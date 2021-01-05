@@ -6,11 +6,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.cars.dto.carsDTO;
-import com.project.cars.model.cars;
+import com.project.cars.model.Cars;
 
-public interface CarsRepository extends JpaRepository<cars, Long> {
+public interface CarsRepository extends JpaRepository<Cars, Long> {
 
-	List<cars> findByType(String type);
+	List<Cars> findByType(String type);
 
 	
 }

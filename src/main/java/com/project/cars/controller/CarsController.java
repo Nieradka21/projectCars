@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.project.cars.dto.carsDTO;
-import com.project.cars.model.cars;
+import com.project.cars.model.Cars;
 import com.project.cars.services.CarsService;
 
 @RestController
@@ -30,7 +30,7 @@ public class CarsController {
 	private CarsService service = new CarsService();
 
 	@GetMapping
-	@Secured({"ROLE_ADMIN"})
+	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public ResponseEntity<List<carsDTO>> getCars() {
 		return ResponseEntity.ok(service.getCars());
 		// return new ResponseEntity<>(service.getCars(), HttpStatus.OK);
@@ -51,7 +51,7 @@ public class CarsController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> saveCar(@RequestBody cars car) {
+	public ResponseEntity<?> saveCar(@RequestBody Cars car) {
 
 		carsDTO c = service.save(car);
 		URI location = getUri(c.getId());
@@ -63,7 +63,7 @@ public class CarsController {
 	}
 
 	@PutMapping
-	public ResponseEntity<?> UpCar(@RequestBody cars car) {
+	public ResponseEntity<?> UpCar(@RequestBody Cars car) {
 
 		return car.getId() != null ? ResponseEntity.ok(car) : ResponseEntity.notFound().build();
 

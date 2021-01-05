@@ -2,7 +2,7 @@ package com.project.cars.dto;
 
 import org.modelmapper.ModelMapper;
 
-import com.project.cars.model.cars;
+import com.project.cars.model.Cars;
 
 import lombok.Data;
 
@@ -17,7 +17,7 @@ public class carsDTO {
 	 * public carsDTO(cars c) { this.id = c.getId(); this.name = c.getName();
 	 * this.type = c.getType(); }
 	 */
-	public static carsDTO create(cars c) {
+	public static carsDTO create(Cars c) {
 		ModelMapper modelMapper = new ModelMapper();
 		return modelMapper.map(c, carsDTO.class);
 	}
