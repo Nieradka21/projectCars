@@ -1,6 +1,5 @@
 package com.project.cars.model;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,18 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.project.cars.security.roles.Role;
 
-import lombok.Data;
 
-@Data
+
 @Entity(name = "user")
-public class Users implements UserDetails {
+public class Users {
 
-	private static final long serialVersionUID = -7905741324031733781L;
+	static final long serialVersionUID = -7905741324031733781L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,45 +32,55 @@ public class Users implements UserDetails {
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<Role> roles;
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-
-		return roles;
+	public Long getId() {
+		return id;
 	}
 
-	@Override
-	public String getPassword() {
-
-		return senha;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	@Override
-	public String getUsername() {
+	public String getNome() {
+		return nome;
+	}
 
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getLogin() {
 		return login;
 	}
 
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
+	public String getSenha() {
+		return senha;
 	}
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
+	public String getEmail() {
+		return email;
 	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	
+	
+	
 }
