@@ -29,7 +29,7 @@ public class CarsController {
 	private CarsService service = new CarsService();
 
 	@GetMapping
-	@Secured({"ROLE_ADMIN","ROLE_USER"})
+//	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public ResponseEntity<List<carsDTO>> getCars() {
 		return ResponseEntity.ok(service.getCars());
 		// return new ResponseEntity<>(service.getCars(), HttpStatus.OK);
