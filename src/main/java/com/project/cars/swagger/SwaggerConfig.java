@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.google.common.base.Predicate;
+
+import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -23,13 +26,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig implements WebMvcConfigurer {
 	@Bean
 	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.ant("/api/**")).build()
+		return new Docket(DocumentationType.SWAGGER_2).select().apis(apis())
+				.paths(PathSelectors.any()).build()
 				.globalOperationParameters(Collections
 						.singletonList(new ParameterBuilder().name("Authorization").description("Bearer token")
 								.modelRef(new ModelRef("string")).parameterType("header").required(false).build()))
 				.apiInfo(apiInfo());
 	}
+	
+	private Predicate<RequestHandler> apis() {
+        return RequestHandlerSelectors.basePackage("com.project.cars");
+    }
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder().contact(new Contact("Ivan Mateus", "", "")).title("Carros")

@@ -67,8 +67,9 @@ public class CarsController {
 		return car.getId() != null ? ResponseEntity.ok(car) : ResponseEntity.notFound().build();
 
 	}
-
+	
 	@DeleteMapping("/{id}")
+	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public ResponseEntity<?> DelCar(@PathVariable(value = "id") Long id) {
 
 		service.deleteById(id);

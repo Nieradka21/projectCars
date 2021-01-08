@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable()
 // Não cheque essas requisições
-				.authorizeRequests().antMatchers("/login", "/api","/api/{id}").permitAll()
+				.authorizeRequests().antMatchers("/login").permitAll()
 				.antMatchers("/v2/api-docs",
 			            "/v3/api-docs",  
 			            "/swagger-resources/**", 
