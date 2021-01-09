@@ -1,69 +1,99 @@
 package com.project.cars.security.jwt.config;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 import java.io.Serializable;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtTokenUtil implements Serializable {
 	private static final long serialVersionUID = -2550185165626007488L;
-	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-	@Value("${jwt.secret}")
-	private String secret;
+	private static final long JWT_TOKEN_VALIDITY = /* Days */ 10 * 24 /* horas */ * 60 /* min */ * 60 /* seg */
+			* 1000 /* milis */;
+	private static final String JWT_SECRET = "n2r5u8x/A%D*G-KaPdSgVkYp3s6v9y$B&E(H+MbQeThWmZq4t7w!z%C*F-J@NcRf";
 
-//retorna o username do token jwt 
-	public String getUsernameFromToken(String token) {
-		return getClaimFromToken(token, Claims::getSubject);
+	public static Claims getClaims(String token) {
+		byte[] signingKey = JwtTokenUtil.JWT_SECRET.getBytes();
+
+		token = token.replace("Bearer ", "");
+
+		return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token).getBody();
 	}
 
-//retorna expiration date do token jwt 
-	public Date getExpirationDateFromToken(String token) {
-		return getClaimFromToken(token, Claims::getExpiration);
+	public static String getLogin(String token) {
+		Claims claims = getClaims(token);
+		if (!isNull(claims)) {
+			return claims.getSubject();
+		}
+		return null;
 	}
 
-	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-		final Claims claims = getAllClaimsFromToken(token);
-		return claimsResolver.apply(claims);
-
+	public static List<GrantedAuthority> getRoles(String token) {
+		Claims claims = getClaims(token);
+		if (claims == null) {
+			return null;
+		}
+		return ((List<?>) claims.get("rol")).stream().map(authority -> new SimpleGrantedAuthority((String) authority))
+				.collect(Collectors.toList());
 	}
 
-//para retornar qualquer informação do token nos iremos precisar da secret key
-	private Claims getAllClaimsFromToken(String token) {
-		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+	public static boolean isTokenValid(String token) {
+		Claims claims = getClaims(token);
+		if (nonNull(claims)) {
+			String login = claims.getSubject();
+			Date expiration = claims.getExpiration();
+			Date now = new Date(System.currentTimeMillis());
+			return login != null && expiration != null && now.before(expiration);
+		}
+		return false;
 	}
 
-//check if the token has expired
-	public Boolean isTokenExpired(String token) {
-		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(new Date());
+	public static String createToken(UserDetails user) {
+		List<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.toList());
+
+		byte[] signingKey = JwtTokenUtil.JWT_SECRET.getBytes();
+
+		Date expiration = new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY);
+
+		return Jwts.builder().signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
+				.setSubject(user.getUsername()).setExpiration(expiration).claim("rol", roles).compact();
 	}
 
-//gera token para user
-	public String generateToken(UserDetails userDetails) {
-		Map<String, Object> claims = new HashMap<>();
-		return doGenerateToken(claims, userDetails.getUsername());
+	public static String getAuthLogin() {
+		UserDetails user = getUserDetails();
+		if (user != null) {
+			return user.getUsername();
+		}
+		return null;
 	}
 
-//Cria o token e define tempo de expiração pra ele
-	private String doGenerateToken(Map<String, Object> claims, String subject) {
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-				.signWith(SignatureAlgorithm.HS512, secret).compact();
-	}
-
-//valida o token
-	public Boolean validateToken(String token, UserDetails userDetails) {
-		final String username = getUsernameFromToken(token);
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+	public static UserDetails getUserDetails() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null && auth.getPrincipal() != null) {
+			return (UserDetails) auth.getPrincipal();
+		}
+		return null;
 	}
 
 }

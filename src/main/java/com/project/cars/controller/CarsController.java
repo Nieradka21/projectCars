@@ -3,7 +3,6 @@ package com.project.cars.controller;
 import java.net.URI;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.project.cars.dto.carsDTO;
 import com.project.cars.model.Cars;
+import com.project.cars.security.jwt.config.JwtTokenUtil;
 import com.project.cars.services.CarsService;
+
+import io.jsonwebtoken.Claims;
 
 @RestController
 @RequestMapping("/api")
@@ -28,8 +30,11 @@ public class CarsController {
 	@Autowired
 	private CarsService service = new CarsService();
 
+	@Autowired
+	private JwtTokenUtil jwt;
+
 	@GetMapping
-//	@Secured({"ROLE_ADMIN","ROLE_USER"})
+	@Secured({ "ROLE_USER" })
 	public ResponseEntity<List<carsDTO>> getCars() {
 		return ResponseEntity.ok(service.getCars());
 		// return new ResponseEntity<>(service.getCars(), HttpStatus.OK);
@@ -67,9 +72,9 @@ public class CarsController {
 		return car.getId() != null ? ResponseEntity.ok(car) : ResponseEntity.notFound().build();
 
 	}
-	
+
 	@DeleteMapping("/{id}")
-	@Secured({"ROLE_ADMIN","ROLE_USER"})
+	@Secured({ "ROLE_ADMIN", "ROLE_USER" })
 	public ResponseEntity<?> DelCar(@PathVariable(value = "id") Long id) {
 
 		service.deleteById(id);
@@ -77,4 +82,9 @@ public class CarsController {
 		return ResponseEntity.ok().build();
 
 	}
+//@GetMapping("/teste")
+//	public String teste() {
+//		
+//		return jwt.getUsernameFromToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjEwMTU4NTYzLCJpYXQiOjE2MTAxNDA1NjN9.wVx1rbnnSllcVei2hO19kOPFVsFp0o0frMgjFeJrp2NdSL3_TCQqnDmgNv7M_kL5qeceHJmh7XwcasEc9n7l1w");
+//	}
 }
