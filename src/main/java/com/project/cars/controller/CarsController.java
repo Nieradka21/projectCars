@@ -34,7 +34,7 @@ public class CarsController {
 	private JwtTokenUtil jwt;
 
 	@GetMapping
-	@Secured({ "ROLE_USER" })
+	@Secured({ "ROLE_USER","ROLE_ADMIN" })
 	public ResponseEntity<List<carsDTO>> getCars() {
 		return ResponseEntity.ok(service.getCars());
 		// return new ResponseEntity<>(service.getCars(), HttpStatus.OK);

@@ -9,6 +9,7 @@ public class carsDTO {
 	private Long id;
 	private String name;
 	private String type;
+	private String url_foto;
 
 	/*
 	 * public carsDTO(cars c) { this.id = c.getId(); this.name = c.getName();
@@ -41,6 +42,14 @@ public class carsDTO {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getUrl_foto() {
+		return url_foto;
+	}
+
+	public void setUrl_foto(String url_foto) {
+		this.url_foto = url_foto;
 	}
 
 }
