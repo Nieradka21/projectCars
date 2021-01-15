@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,8 @@ public class CarsService {
 		return car.map(carsDTO::create).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado"));
 	}
 
-	public List<carsDTO> getCarsByType(String type) {
-		return rep.findByType(type).stream().map(carsDTO::create).collect(Collectors.toList());
+	public List<carsDTO> getCarsByType(String type,Pageable pageable) {
+		return rep.findByType(type,pageable).stream().map(carsDTO::create).collect(Collectors.toList());
 	}
 
 	public carsDTO save(Cars car) {

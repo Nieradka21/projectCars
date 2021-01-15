@@ -4,7 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +35,7 @@ public class CarsController {
 	private JwtTokenUtil jwt;
 
 	@GetMapping
-	@Secured({ "ROLE_USER","ROLE_ADMIN" })
+	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
 	public ResponseEntity<List<carsDTO>> getCars() {
 		return ResponseEntity.ok(service.getCars());
 		// return new ResponseEntity<>(service.getCars(), HttpStatus.OK);
@@ -48,8 +49,10 @@ public class CarsController {
 	}
 
 	@GetMapping("/type/{type}")
-	public ResponseEntity<List<carsDTO>> getType(@PathVariable("type") String type) {
-		List<carsDTO> car = service.getCarsByType(type);
+	public ResponseEntity<List<carsDTO>> getType(@PathVariable("type") String type,
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "size", defaultValue = "4") Integer size) {
+		List<carsDTO> car = service.getCarsByType(type,PageRequest.of(page,size));
 		return car.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(car);
 
 	}
