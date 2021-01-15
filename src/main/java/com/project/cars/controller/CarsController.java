@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -49,10 +50,10 @@ public class CarsController {
 	}
 
 	@GetMapping("/type/{type}")
-	public ResponseEntity<List<carsDTO>> getType(@PathVariable("type") String type,
+	public ResponseEntity<Page<carsDTO>> getType(@PathVariable("type") String type,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "size", defaultValue = "4") Integer size) {
-		List<carsDTO> car = service.getCarsByType(type,PageRequest.of(page,size));
+		Page<carsDTO> car = service.getCarsByType(type,PageRequest.of(page,size));
 		return car.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(car);
 
 	}
