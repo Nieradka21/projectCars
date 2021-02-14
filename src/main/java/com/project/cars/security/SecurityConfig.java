@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		AuthenticationManager authManager = authenticationManager();
 
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth").permitAll()
-				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**","api/email").permitAll()
+				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**","/api/email").permitAll()
 				.anyRequest().authenticated().and().csrf().disable().addFilter(new JwtAuthenticationFilter(authManager))
 				.addFilter(new JwtAuthorizationFilter(authManager, userDetailsService)).exceptionHandling()
 				.accessDeniedHandler(accessDeniedHandler).authenticationEntryPoint(unauthorizedHandler).and()
