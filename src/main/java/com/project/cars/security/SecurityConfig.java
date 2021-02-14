@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         AuthenticationManager authManager = authenticationManager();
 
-        	http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+        	http.cors()
         		.and()
         		.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth","/api/email").permitAll()
@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
-                .addFilter(new CorsConfig())
+                
                 .addFilter(new JwtAuthenticationFilter(authManager))
                 .addFilter(new JwtAuthorizationFilter(authManager, userDetailsService))
                 .exceptionHandling()

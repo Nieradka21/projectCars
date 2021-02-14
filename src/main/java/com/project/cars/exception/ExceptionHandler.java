@@ -5,8 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import io.jsonwebtoken.ExpiredJwtException;
+
 @RestControllerAdvice
-public class ExceptionHandler extends ResponseEntityExceptionHandler{
+public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@org.springframework.web.bind.annotation.ExceptionHandler({ EmptyResultDataAccessException.class })
 	public ResponseEntity<?> errorNotFound(Exception ex) {
@@ -17,4 +19,5 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler{
 	public ResponseEntity<?> errorBadRequest(Exception ex) {
 		return ResponseEntity.badRequest().build();
 	}
+
 }

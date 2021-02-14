@@ -18,6 +18,11 @@ public interface UserRepository extends JpaRepository<Users, Long> {
 	@Modifying
 	@Query(value = "update Users u set u.token = :token where u.email = :email")
 	Integer gerarCodigo(@Param("token") String temp, @Param("email") String email);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "update Users u set u.senha = :senha where u.email = :email")
+	Integer resetPassword(@Param("senha") String pass, @Param("email") String login);
 
 
 }
