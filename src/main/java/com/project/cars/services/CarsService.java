@@ -1,21 +1,19 @@
 package com.project.cars.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.project.cars.dto.carsDTO;
 import com.project.cars.exception.ObjectNotFoundException;
 import com.project.cars.model.Cars;
 import com.project.cars.repository.CarsRepository;
-
-import org.springframework.util.Assert;
 
 @Service
 public class CarsService {
@@ -33,9 +31,9 @@ public class CarsService {
 		return car.map(carsDTO::create).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado"));
 	}
 
-	public Page<carsDTO> getCarsByType(String type,Pageable pageable) {
+	public Page<carsDTO> getCarsByType(String type, Pageable pageable) {
 		Page<Cars> car = rep.findByType(type, pageable);
-		
+
 		return car.map(carsDTO::create);
 	}
 
@@ -54,16 +52,7 @@ public class CarsService {
 	public void deleteById(Long id) {
 
 		rep.deleteById(id);
-
 	}
 
-	/*
-	 * public List<cars> getCarsFake() { List<cars> car = new ArrayList<>();
-	 * 
-	 * car.add(new cars(1L, "Fusca")); car.add(new cars(2L, "Fiesta")); car.add(new
-	 * cars(3L, "Celta"));
-	 * 
-	 * return car; }
-	 */
 
 }

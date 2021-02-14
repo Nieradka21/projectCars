@@ -21,10 +21,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.project.cars.dto.carsDTO;
 import com.project.cars.model.Cars;
+import com.project.cars.model.Users;
+import com.project.cars.repository.UserRepository;
 import com.project.cars.security.jwt.config.JwtTokenUtil;
+//import com.project.cars.sendEmail.Email;
 import com.project.cars.services.CarsService;
-
-import io.jsonwebtoken.Claims;
 
 @RestController
 @RequestMapping("/api")
@@ -35,6 +36,7 @@ public class CarsController {
 	@Autowired
 	private JwtTokenUtil jwt;
 
+	
 	@GetMapping
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
 	public ResponseEntity<List<carsDTO>> getCars() {
@@ -53,7 +55,7 @@ public class CarsController {
 	public ResponseEntity<Page<carsDTO>> getType(@PathVariable("type") String type,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "size", defaultValue = "4") Integer size) {
-		Page<carsDTO> car = service.getCarsByType(type,PageRequest.of(page,size));
+		Page<carsDTO> car = service.getCarsByType(type, PageRequest.of(page, size));
 		return car.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(car);
 
 	}
@@ -73,7 +75,7 @@ public class CarsController {
 	@PutMapping
 	public ResponseEntity<?> UpCar(@RequestBody Cars car) {
 
-		return car.getId() != null ? ResponseEntity.ok(car) : ResponseEntity.notFound().build();
+		return car.getId() != null ? ResponseEntity.ok(service.UpCar(car)) : ResponseEntity.notFound().build();
 
 	}
 
@@ -86,9 +88,12 @@ public class CarsController {
 		return ResponseEntity.ok().build();
 
 	}
-//@GetMapping("/teste")
-//	public String teste() {
-//		
-//		return jwt.getUsernameFromToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjEwMTU4NTYzLCJpYXQiOjE2MTAxNDA1NjN9.wVx1rbnnSllcVei2hO19kOPFVsFp0o0frMgjFeJrp2NdSL3_TCQqnDmgNv7M_kL5qeceHJmh7XwcasEc9n7l1w");
+
+	
+
+//	@GetMapping("/teste")
+//	public Users teste() {
+//
+//		return userRepository.findByEmail("admin@gmail.com");
 //	}
 }

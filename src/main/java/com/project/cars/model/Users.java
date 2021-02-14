@@ -11,13 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.project.cars.security.roles.Role;
 
-@Entity(name = "user")
+@Entity()
+@Table(name = "user")
 public class Users implements UserDetails {
 
 	static final long serialVersionUID = -7905741324031733781L;
@@ -29,6 +31,7 @@ public class Users implements UserDetails {
 	private String login;
 	private String senha;
 	private String email;
+	private String token;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -116,6 +119,14 @@ public class Users implements UserDetails {
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }
