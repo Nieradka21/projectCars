@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		AuthenticationManager authManager = authenticationManager();
 
-		http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth",HttpMethod.POST,"/api/email").permitAll()
+		http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth","/api/email").permitAll()
 				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
 				.anyRequest().authenticated().and().csrf().disable().addFilter(new JwtAuthenticationFilter(authManager))
 				.addFilter(new JwtAuthorizationFilter(authManager, userDetailsService)).exceptionHandling()
