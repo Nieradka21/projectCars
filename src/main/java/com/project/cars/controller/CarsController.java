@@ -21,11 +21,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.project.cars.dto.carsDTO;
 import com.project.cars.model.Cars;
-import com.project.cars.model.Users;
-import com.project.cars.repository.UserRepository;
-import com.project.cars.security.jwt.config.JwtTokenUtil;
-//import com.project.cars.sendEmail.Email;
 import com.project.cars.services.CarsService;
+
 
 @RestController
 @RequestMapping("/api")
@@ -33,10 +30,6 @@ public class CarsController {
 	@Autowired
 	private CarsService service = new CarsService();
 
-	@Autowired
-	private JwtTokenUtil jwt;
-
-	
 	@GetMapping
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
 	public ResponseEntity<List<carsDTO>> getCars() {

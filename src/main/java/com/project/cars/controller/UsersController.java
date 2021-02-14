@@ -3,7 +3,6 @@ package com.project.cars.controller;
 import java.io.IOException;
 
 import javax.mail.MessagingException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,7 @@ public class UsersController {
 	UserService userService;
 
 	@PostMapping("/email")
-	public ResponseEntity<?> enviaEmail(@RequestBody Users users) throws MessagingException, IOException {
+	public ResponseEntity<String> enviaEmail(@RequestBody Users users) throws MessagingException, IOException {
 		// return ResponseEntity.ok().build();
 		if (userService.validaEmail(users.getEmail())) {
 			userService.enviarEmail(users);
