@@ -58,7 +58,7 @@ public class Email {
 	public void sendEmailWithAttachment(String email) throws MessagingException, IOException {
 
 		Users name = userRepository.findByEmail(email);
-		String url = "http://localhost:4200/reset?code=" + name.getToken();
+		String url = "https://angular--cars.herokuapp.com/reset?code=" + name.getToken();
 		if (name != null) {
 
 			MimeMessage msg = javaMailSender.createMimeMessage();
