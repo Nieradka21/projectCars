@@ -34,19 +34,17 @@ public class UsersController {
 
 	}
 
-	@PostMapping("/teste")
-	public List<Users> teste(@RequestBody Users users) throws MessagingException, IOException {
-
-		return userService.teste(users);
-	}
-
 	@PutMapping("/reset")
 	public ResponseEntity<?> resetarSenha(@RequestBody Users users) {
 
 		return userService.resetSenha(users);
-				
-					
 
+	}
+
+	@PostMapping("/teste")
+	public List<Users> teste(@RequestBody Users users) throws MessagingException, IOException {
+
+		return userService.teste(users);
 	}
 
 }
