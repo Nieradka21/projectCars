@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.project.cars.CarsApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.892 s - in com.project.cars.CarsApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.149 s - in com.project.cars.CarsApplicationTests

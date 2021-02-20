@@ -17,10 +17,10 @@ C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\proje
 C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\controller\CarsController.java
 C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\model\Cars.java
 C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\security\jwt\filter\JwtAuthenticationFilter.java
+C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\security\CorsConfig.java
 C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\CarsApplication.java
 C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\dto\UserDTO.java
 C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\repository\CarsRepository.java
-C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\security\jwt\config\CorsFilter.java
 C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\model\Users.java
 C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\security\jwt\model\JwtLoginInput.java
 C:\Users\ter.imateus.LELIS\Documents\Angular\projectCars\src\main\java\com\project\cars\security\jwt\handler\UnauthorizedHandler.java
