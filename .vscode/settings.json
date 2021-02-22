@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/26931df0-6a76-4bf9-b8d7-5cb595937f47/resourceGroups/static-apps/providers/Microsoft.Web/sites/Spring-Cars",
+    "appService.deploySubpath": "."
+}
