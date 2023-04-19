@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.project.cars.dto.carsDTO;
 import com.project.cars.model.Cars;
+import com.project.cars.model.Users;
 import com.project.cars.services.CarsService;
 
 
@@ -84,9 +85,9 @@ public class CarsController {
 
 	
 
-//	@GetMapping("/teste")
-//	public Users teste() {
-//
-//		return userRepository.findByEmail("admin@gmail.com");
-//	}
+	// @GetMapping("/teste")
+	// public Users teste() {
+
+	// 	return userRepository.findByEmail("admin@gmail.com");
+	// }
 }
